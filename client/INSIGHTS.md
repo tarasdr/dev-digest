@@ -14,11 +14,20 @@ humans consolidate at ~100 entries.
   `server/src/vendor/shared` and has already drifted (e.g. `sessionId` exists only on
   the server's `LLMProvider` options). Check the server copy before trusting a type here.
 
+- **2026-10-10 · Popovers in the PR list get clipped** — `tableCard` (pulls/styles.ts)
+  has `overflow: hidden`. Portal hover cards to `document.body` with `position: fixed`
+  (see `components/severity-counts`). React events still bubble through the portal to
+  `PRRow`'s row `onClick` (navigation) — `stopPropagation` inside the popover.
+
 ## Codebase Patterns
 <!-- Conventions, architecture decisions, naming -->
 
 - **2026-09-23 · Future-lesson messages** — `messages/en` already has files for later
   lessons (blast, brief, ci, conventions…). They are placeholders, not dead strings.
+
+- **2026-10-10 · Two `Severity` types** — `@devdigest/shared` `Severity` is
+  `CRITICAL | WARNING | SUGGESTION`; `@devdigest/ui` `Severity`/`SEV` adds `INFO`. Type
+  data with the shared one and use `SEV[sev]` only for colour/icon.
 
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->

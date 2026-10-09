@@ -263,6 +263,48 @@ d('A2 reviews + agents (Testcontainers pg)', () => {
     await app.close();
   });
 
+  it('PR list FINDINGS counts non-dismissed findings per severity across reviews; none → null', async () => {
+    const github = { listPullRequests: async () => [] } as unknown as GitHubClient;
+    const app = await buildApp({ config: config(), db: pg.handle.db, overrides: { github } });
+    const { repo, pr } = await setupRepoAndPr(pg.handle.db, workspaceId);
+
+    const [r1, r2] = await pg.handle.db
+      .insert(t.reviews)
+      .values([
+        { workspaceId, prId: pr.id, kind: 'review' },
+        { workspaceId, prId: pr.id, kind: 'review' },
+      ])
+      .returning();
+    const finding = (reviewId: string, severity: string, dismissed = false) => ({
+      reviewId,
+      file: 'src/a.ts',
+      startLine: 1,
+      endLine: 1,
+      severity,
+      category: 'bug',
+      title: `${severity} finding`,
+      rationale: 'r',
+      confidence: 0.9,
+      dismissedAt: dismissed ? new Date() : null,
+    });
+    await pg.handle.db.insert(t.findings).values([
+      finding(r1!.id, 'CRITICAL'),
+      finding(r1!.id, 'WARNING'),
+      finding(r2!.id, 'CRITICAL'),
+      finding(r2!.id, 'SUGGESTION'),
+      finding(r2!.id, 'CRITICAL', true), // dismissed → not counted
+    ]);
+
+    const res = await app.inject({ method: 'GET', url: `/repos/${repo.id}/pulls` });
+    expect(res.statusCode).toBe(200);
+    const listed: PrMeta[] = res.json();
+    const row = listed.find((p) => p.id === pr.id)!;
+    expect(row.finding_counts).toEqual({ CRITICAL: 2, WARNING: 1, SUGGESTION: 1 });
+    expect(listed.filter((p) => p.id !== pr.id).every((p) => p.finding_counts == null)).toBe(true);
+
+    await app.close();
+  });
+
   it('dual-provider structured output: anthropic provider returns the same Review shape', async () => {
     const app = await appWith(REVIEW_FIXTURE, 'anthropic');
     const { pr } = await setupRepoAndPr(pg.handle.db, workspaceId);
