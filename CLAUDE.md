@@ -32,7 +32,11 @@ lockfile; cross-package code is shared via tsconfig path aliases only.
 - `reviewer-core` must stay free of DB / GitHub / filesystem access.
 - Before implementing a feature, look for its spec: cross-package specs in
   [specs/](specs/), package-specific ones in `<package>/specs/`.
-- After learning something non-obvious, add a line to the relevant `INSIGHTS.md`.
+- **Insights loop (`engineering-insights` skill) — mandatory:**
+  - Start: after the user's first prompt and before any other work, read the `INSIGHTS.md`
+    of every module the request concerns; treat it as high-confidence guidance.
+  - End: re-read that `INSIGHTS.md`, then append only substantial lessons not already there.
+    Nothing new → write nothing. CLAUDE.md stays the stable handbook; lessons go to `INSIGHTS.md`.
 
 ## Documentation map
 
@@ -43,7 +47,19 @@ lockfile; cross-package code is shared via tsconfig path aliases only.
 | `<package>/README.md` | Human-facing package docs |
 | `<package>/docs/` | Deeper package docs |
 | `<package>/specs/` | Package-level feature specs (`e2e/test-plans/` for e2e) |
-| `<package>/INSIGHTS.md` | Package gotchas, auto-loaded by that package's CLAUDE.md |
+| `<package>/INSIGHTS.md` | Module lessons in 7 fixed sections, auto-loaded by that package's CLAUDE.md (also `server/src/modules/repo-intel/`) |
+
+## Do-not-touch
+'server/src/vendor/shared/"
+and
+'server/src/db/migrations/'
+never hand-edit without coordination.
+
+## Use when
+Stack, commands, architecture, how to run → read
+- Working inside a package → read that package's
+' reviewer-core/CLAUDE.md, "e2e/CLAUDE.md" I
+- Agent prompt templates → read 'docs/agent-prompts/"
 
 ## Insights
 
