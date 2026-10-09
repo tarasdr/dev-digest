@@ -29,9 +29,19 @@ humans consolidate at ~100 entries.
 - **2026-09-23 · Review runs are fire-and-forget** — the review route queues runs and
   returns; `ReviewRunExecutor` runs agents sequentially in the background and reports
   progress over SSE.
+- **2026-10-09 · Trace jsonb is cast, not parsed** — `getRunTrace` returns
+  `run_traces.trace` as `RunTrace` without Zod, so old rows lack newly added fields.
+  Make new `RunStats`/trace fields `.nullish()` and handle `undefined` in the UI.
 
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->
+
+- **2026-10-10 · Drizzle `sum()` is a string** — `sum(col)` returns a numeric string
+  (or null), not a number. Convert with `Number()` before returning it from a route,
+  or the API sends `"0.0027"`.
+- **2026-10-10 · PR-list tests hit real GitHub** — `GET /repos/:id/pulls` syncs from
+  GitHub whenever a token resolves (incl. `~/.devdigest/secrets.json`). Override
+  `github` with a stub (`{ listPullRequests: async () => [] }`) to keep tests deterministic.
 
 ## Recurring Errors & Fixes
 <!-- Error message / symptom → fix -->
