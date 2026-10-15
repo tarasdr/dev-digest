@@ -34,6 +34,12 @@ humans consolidate at ~100 entries. Package-specific insights go in `<package>/I
   `instanceof ZodError` can fail across packages. `reviewer-core` pins `zod` to its own
   `node_modules`; `server/src/app.ts` also detects ZodError by shape.
 
+- **2026-10-16 · pr-self-review hook intercepts Bash** — `.claude/settings.json` runs
+  `pr-self-review/scripts/gate.mjs check --hook` on every Bash call and blocks any command with
+  `gh pr create` / `gh pr merge` in command position (incl. after `&&`, `;`, inside `node -e`
+  strings) unless the last review PASSed on the exact current diff. To test the gate, put the
+  payload in a file and build the command text by concatenation (`"g"+"h pr create"`).
+
 ## Recurring Errors & Fixes
 <!-- Error message / symptom → fix -->
 
