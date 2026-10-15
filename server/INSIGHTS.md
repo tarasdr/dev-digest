@@ -59,3 +59,8 @@ humans consolidate at ~100 entries.
 
 ## Open Questions
 <!-- Unresolved items worth investigating -->
+
+- **2026-10-15 · `RipgrepCodeIndex.grep` arg injection** — the pattern is passed to `rg`
+  as a positional arg, so a pattern starting with `-` (e.g. `--pre=<cmd>`) is parsed as a
+  flag. Unused today; pass it as `-e <pattern>` before wiring it to LLM tool calls.
+

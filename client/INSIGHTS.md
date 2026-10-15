@@ -32,6 +32,10 @@ humans consolidate at ~100 entries.
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->
 
+- **2026-10-15 · No ESLint configured** — no package has an ESLint config or `lint`
+  script, so `// eslint-disable-line react-hooks/exhaustive-deps` comments are inert and
+  hook-deps mistakes are not caught. Only `tsc` + vitest guard the client.
+
 ## Recurring Errors & Fixes
 <!-- Error message / symptom → fix -->
 
