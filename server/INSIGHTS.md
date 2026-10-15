@@ -13,6 +13,10 @@ humans consolidate at ~100 entries.
 - **2026-09-23 · Re-export shims** — `platform/grounding.ts`, `prompt.ts` and
   `structured.ts` only re-export from `@devdigest/reviewer-core`. Import from the engine
   directly in new code.
+- **2026-10-15 · Drizzle leaks past repositories** — `pulls`, `settings`, `polling`,
+  `workspace` routes and `reviews/run-executor.ts`, `diff-loader.ts` query `container.db`
+  directly. Don't copy them as templates; follow `modules/repos/` and the
+  `onion-architecture` skill (queries only in `repository*`).
 
 ## Codebase Patterns
 <!-- Conventions, architecture decisions, naming -->

@@ -34,6 +34,7 @@ Full description: [README.md](README.md). Project root: [../CLAUDE.md](../CLAUDE
 | When | Read |
 |---|---|
 | Wiring a route / service / adapter | [README.md — Request & DI flow](README.md#request--di-flow) |
+| Adding / reshaping a module, service, repository or adapter | `onion-architecture` skill ([SKILL.md](../.claude/skills/onion-architecture/SKILL.md)) |
 | Finding an endpoint | [README.md — API map](README.md#api-map-starter) |
 | Config and env vars | [README.md — Environment](README.md#environment) |
 | Touching what the model sees | [README.md — Review context](README.md#review-context-non-obvious) |
