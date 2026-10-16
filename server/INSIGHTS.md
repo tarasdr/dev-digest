@@ -37,6 +37,15 @@ humans consolidate at ~100 entries.
   `run_traces.trace` as `RunTrace` without Zod, so old rows lack newly added fields.
   Make new `RunStats`/trace fields `.nullish()` and handle `undefined` in the UI.
 
+- **2026-10-16 · Skills in the run** — `run-executor.buildSkills` sends attached skills
+  (`agent_skills` row, ordered) only when `skills.enabled` is on; it logs one
+  `skill attached:` line each and writes `trace.skills_used`. Changing an agent's skill
+  links does NOT bump the agent version — only `agents` config edits do.
+
+- **2026-10-16 · Text enums need no migration** — `skills.type` / `skills.source` (and
+  other `text('x', { enum })` columns) are plain `text` in SQL with no CHECK, so adding
+  a value is a TS + Zod change only (`imported_file` was added this way).
+
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->
 
@@ -46,6 +55,10 @@ humans consolidate at ~100 entries.
 - **2026-10-10 · PR-list tests hit real GitHub** — `GET /repos/:id/pulls` syncs from
   GitHub whenever a token resolves (incl. `~/.devdigest/secrets.json`). Override
   `github` with a stub (`{ listPullRequests: async () => [] }`) to keep tests deterministic.
+
+- **2026-10-16 · fflate lists without inflating** — `unzipSync(buf, { filter: f => (seen.push(f), false) })`
+  enumerates entries (with `originalSize`) without decompressing anything; skill import
+  uses this two-pass pattern so only `SKILL.md` is ever inflated.
 
 ## Recurring Errors & Fixes
 <!-- Error message / symptom → fix -->

@@ -27,6 +27,11 @@ humans consolidate at ~100 entries. Package-specific insights go in `<package>/I
 - **2026-09-23 · Task tags** — code comments use tags like `T1.3`, `T3`, `F1`. They are
   internal task IDs, not course lesson numbers.
 
+- **2026-10-16 · Upstream lesson branches** — `remotes/upstream/lesson-N-lab/*` and
+  `upstream/reference/full-build` hold the course's reference implementations (seeds,
+  skills, UI). Check them before inventing seed data, but reconcile with this repo's
+  prompts: upstream `lethal-trifecta` contradicted the Security Reviewer's definition.
+
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->
 

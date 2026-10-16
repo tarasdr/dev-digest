@@ -1,6 +1,7 @@
 ---
 name: pr-self-review
 description: "Self-review all local changes (commits on the branch + staged + unstaged + untracked) against main before opening a pull request. Routes every changed file to the project skills that own it — UI skills on client files, backend architecture skills on server files — runs deterministic checks (typecheck, layer greps, contract drift, secrets), and blocks the PR when any critical finding remains. Use before `gh pr create`, when a pr-self-review hook blocks a command, or when asked to self-review, pre-review, check changes before a PR, or 'перевір зміни перед PR'. Args: quick (default) | full, --base <ref>."
+disable-model-invocation: true
 metadata:
   version: 1.0.0
   updated: 2026-10-16
