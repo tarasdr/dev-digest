@@ -32,6 +32,11 @@ humans consolidate at ~100 entries. Package-specific insights go in `<package>/I
   skills, UI). Check them before inventing seed data, but reconcile with this repo's
   prompts: upstream `lethal-trifecta` contradicted the Security Reviewer's definition.
 
+- **2026-10-20 · Seeded repo is not clonable** — `acme/payments-api` from `db:seed` has
+  `clone_path = null` and does not exist on GitHub, so Refresh's clone job always fails.
+  Anything that reads the clone (conventions, repo-intel) needs a real repo added via
+  `/onboarding`; UI for such features should check `repo.clone_path` before offering actions.
+
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->
 

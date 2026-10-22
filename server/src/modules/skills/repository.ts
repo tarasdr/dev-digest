@@ -22,6 +22,7 @@ export interface InsertSkill {
   source: SkillSource;
   body: string;
   enabled: boolean;
+  evidenceFiles?: string[] | null;
 }
 
 export interface UpdateSkill {

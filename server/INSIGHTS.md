@@ -61,7 +61,18 @@ humans consolidate at ~100 entries.
   uses this two-pass pattern so only `SKILL.md` is ever inflated.
 
 ## Recurring Errors & Fixes
+- **2026-10-16 · `db:generate` hangs on a rename prompt** — when one schema change both
+  drops and adds columns on a table, drizzle-kit asks interactively "rename or create?"
+  and the command blocks forever in a non-TTY shell. Split it: generate the additive
+  migration first, then remove the old column and generate again (0011/0012 conventions).
+
 <!-- Error message / symptom → fix -->
+
+- **2026-10-20 · Failed background job killed the API** — `JobRunner.enqueue` returns a
+  `done` promise that rejects on final failure; fire-and-forget callers (`RepoService.refresh`
+  / `add`) never awaited it, so a failing clone (e.g. seeded `acme/payments-api`) became an
+  unhandled rejection and Node exited → client shows "Cannot reach the DevDigest engine".
+  `enqueue` now attaches `done.catch(() => {})`; keep job failures on the `jobs` row.
 
 - **2026-09-23 · Seed is required** — `LocalNoAuthProvider` always resolves the seeded
   system user and workspace; without `pnpm db:seed` requests fail with
@@ -71,6 +82,11 @@ humans consolidate at ~100 entries.
 <!-- Dated 1–2 sentence summaries of meaningful sessions -->
 
 ## Open Questions
+- **2026-10-16 · Feature-model defaults need an OpenAI key** — `conventions` (and the other
+  `FEATURE_MODELS` entries) default to `openai`/`gpt-5.4`; with only an OpenRouter key
+  extraction fails with "OPENAI_API_KEY is not configured" until a Settings → Feature
+  Models override is saved. Consider an OpenRouter fallback default.
+
 <!-- Unresolved items worth investigating -->
 
 - **2026-10-15 · `RipgrepCodeIndex.grep` arg injection** — the pattern is passed to `rg`

@@ -35,7 +35,11 @@ export class SkillsService {
     return toSkillDto(row, await this.repo.countAgents(id));
   }
 
-  async create(workspaceId: string, input: SkillInput): Promise<Skill> {
+  /** `evidenceFiles` is internal (set by the Conventions extractor), not part of the public `SkillInput`. */
+  async create(
+    workspaceId: string,
+    input: SkillInput & { evidenceFiles?: string[] },
+  ): Promise<Skill> {
     const row = await this.repo.insert({
       workspaceId,
       name: input.name,
@@ -44,6 +48,7 @@ export class SkillsService {
       source: input.source ?? 'manual',
       body: input.body,
       enabled: input.enabled ?? true,
+      evidenceFiles: input.evidenceFiles ?? null,
     });
     return toSkillDto(row, 0);
   }
