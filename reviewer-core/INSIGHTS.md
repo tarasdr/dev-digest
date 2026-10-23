@@ -22,6 +22,11 @@ humans consolidate at ~100 entries.
   for later lessons; the starter server passes only diff, system prompt, repo map and
   callers.
 
+- **2026-10-16 · Skills slot is live, and trusted** — the server now passes
+  `formatSkillBlock()` output as `skills`. Skill bodies are intentionally NOT
+  `wrapUntrusted`: the injection guard would tell the model to ignore them. Trust is
+  handled upstream (imported skills are saved disabled until a human enables them).
+
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->
 

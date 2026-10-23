@@ -32,8 +32,21 @@ humans consolidate at ~100 entries.
 ## Tool & Library Notes
 <!-- Quirks and gotchas of dependencies -->
 
+- **2026-10-15 · No ESLint configured** — no package has an ESLint config or `lint`
+  script, so `// eslint-disable-line react-hooks/exhaustive-deps` comments are inert and
+  hook-deps mistakes are not caught. Only `tsc` + vitest guard the client.
+
+- **2026-10-16 · jsdom has no `Blob.arrayBuffer`** — `file.arrayBuffer()` throws in vitest.
+  Read uploads with `FileReader.readAsDataURL` (works in browsers and jsdom), as
+  `skills/.../ImportFromFile/helpers.ts` does.
+
 ## Recurring Errors & Fixes
 <!-- Error message / symptom → fix -->
+
+- **2026-10-16 · Mocked query returns a new array per render** — a `vi.mock` hook like
+  `useX: () => ({ data: [...] })` hands back a fresh `data` every render; a component that
+  syncs it into state in `useEffect([data])` loops forever and vitest dies with "Worker
+  exited unexpectedly" after minutes. Hoist mock results to module constants.
 
 ## Session Notes
 <!-- Dated 1–2 sentence summaries of meaningful sessions -->
